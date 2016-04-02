@@ -1,6 +1,8 @@
 ﻿Plugin Age pour S.A.R.A.H
 =========================
 
+Plugin pour avoir l'âge d'une célébrité, auteur, dirigeant, ou tout autre personne assez connu.
+
 Le plugin nécessite tout d'abord Scribe .
 
 Que vous pouvez trouver ici: https://github.com/tilleul/Sarah.Scribe
