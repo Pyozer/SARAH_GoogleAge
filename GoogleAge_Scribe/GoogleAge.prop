@@ -1,0 +1,9 @@
+{
+	"modules" : { 
+		"GoogleAge"  : {
+			"description": "Permet de récupérer l'age de célébrité ou autre personne via Google",
+			"version": "1.0",
+			"auteur": "Jean-Charles Moussé"
+		}
+	}
+}

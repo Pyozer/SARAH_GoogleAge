@@ -1,0 +1,29 @@
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleGoogleAge" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+	<rule id="ruleGoogleAge" scope="public">
+		<example>Jarvis quel age a Bill Gates ?</example>
+		<tag>out.action=new Object(); </tag>
+
+		<item>Jarvis</item>
+    
+		<one-of>
+			<item>quel age</item>
+			<item>quel est l'age</item>
+			<item>tu peux me donner l'age</item>
+			<item>peux tu me donner l'age</item>
+			<item>c'est quoi l'age</item>
+			<item>il a quel age</item>
+			<item>tu sait l'age</item>
+		</one-of>
+
+		<item repeat="0-1">
+			<one-of>
+				<item>de</item>
+				<item>a</item>
+			</one-of>
+		</item>
+
+		<ruleref special="GARBAGE" />
+		
+		<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/GoogleAge";</tag>
+	</rule>
+</grammar>
