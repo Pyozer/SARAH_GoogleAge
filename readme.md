@@ -26,7 +26,8 @@ Comment ça marche ?
 - Vous pouvez demander une célébritée, un auteur, votre chanteuse préféré, un président, tout ce que vous voulez.
 - En faite, le plugin récupère seulement la réponse que Google renvoi à votre requête. Cependant il se peut que votre requête ne renvoi rien pour Google.
 
-**Versions :**
+Versions :
+==========
 1.0:
 ----
 - Première version, donne l'age d'une personne
