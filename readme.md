@@ -1,7 +1,7 @@
 ﻿Plugin Age pour S.A.R.A.H
 =========================
 
-Plugin pour avoir l'âge d'une célébrité, auteur, dirigeant, ou tout autre personne assez connu.
+Plugin pour avoir l'âge ou la date de naissance d'une célébrité, auteur, dirigeant, ou tout autre personne assez connu.
 
 Le plugin nécessite tout d'abord Scribe .
 
@@ -22,6 +22,17 @@ Comment ça marche ?
 -------------------
 - Démarrez S.A.R.A.H
 - Allez sur la page https://127.0.0.1:4300 pour avoir la reconnaissance du Garbage via Google Chrome
-- Vous n'avez plus qu'a demander par exemple: "Jarvis quel age a Bill Gates ?"
+- Vous n'avez plus qu'a demander par exemple: "Jarvis quel age a Bill Gates ?" ou "Jarvis quelle est la date de naissance de Jules Verne ?"
 - Vous pouvez demander une célébritée, un auteur, votre chanteuse préféré, un président, tout ce que vous voulez.
 - En faite, le plugin récupère seulement la réponse que Google renvoi à votre requête. Cependant il se peut que votre requête ne renvoi rien pour Google.
+
+**Versions :**
+1.0:
+----
+- Première version, donne l'age d'une personne
+
+1.1:
+----
+- Ajoute la possibilité d'avoir aussi la date de naissance
+- Modification du .xml, donc ajout de phrases
+- Modification du .js, quelques modification dans les regex.

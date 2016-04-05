@@ -23,7 +23,7 @@ exports.action = function(data, callback){
 	console.log("GoogleAge call log: " + util.inspect(data, { showHidden: true, depth: null }));
 
 	SARAH.context.scribe.hook = function(event) {
-		checkScribe(event, data.action, callback); 
+		checkScribe(event, data.action, callback, data.want); 
 	};
 	
 	token = setTimeout(function(){
@@ -32,20 +32,20 @@ exports.action = function(data, callback){
 
 }
 
-function checkScribe(event, action, callback) {
+function checkScribe(event, action, callback, want) {
 
 	if (event == FULL_RECO) {
 		clearTimeout(token);
 		SARAH.context.scribe.hook = undefined;
 		// aurait-on trouvé ?
-		decodeScribe(SARAH.context.scribe.lastReco, callback);
+		decodeScribe(SARAH.context.scribe.lastReco, callback, want);
 
 	} else if(event == TIME_ELAPSED) {
 		// timeout !
 		SARAH.context.scribe.hook = undefined;
 		// aurait-on compris autre chose ?
 		if (SARAH.context.scribe.lastPartialConfidence >= 0.7 && SARAH.context.scribe.compteurPartial > SARAH.context.scribe.compteur) {
-			decodeScribe(SARAH.context.scribe.lastPartial, callback);
+			decodeScribe(SARAH.context.scribe.lastPartial, callback, want);
 		} else {
 			SARAH.context.scribe.activePlugin('Aucun (GoogleAge)');
 			ScribeSpeak("Désolé je n'ai pas compris. Merci de réessayer.", true);
@@ -57,10 +57,14 @@ function checkScribe(event, action, callback) {
 	}
 }
 
-function decodeScribe(search, callback) {
+function decodeScribe(search, callback, want) {
 
 	console.log ("Search: " + search);
-	var rgxp = /(âge|age)( a| de)? (.+)/i;
+	if(want == "age") {
+		var rgxp = /(âge|age)( a| de)? (.+)/i;
+	} else if(want == "dob") {
+		var rgxp = /(naissance|né|née)( à| a| de| au)? (.+)/i;
+	}
 
 	var match = search.match(rgxp);
 	if (!match || match.length <= 1){
@@ -68,13 +72,34 @@ function decodeScribe(search, callback) {
 		ScribeSpeak("Désolé je n'ai pas compris.", true);
 		return callback();
 	}
-
-	search = match[3];
-	return agegoogle(search, callback);
+	search = match[3].replace('quand', '').trim();
+	return agegoogle(callback, search, want);
 }
 
-function agegoogle(searchperson, callback) {
-	search = "Quel age a " + searchperson;
+function agegoogle(callback, searchperson, want) {
+	if(want == "age") {
+		search = "Age de " + searchperson;
+	} else if(want == "dob") {
+		// On vérifie si on n'a pas déjà enregistré la Date de naissance de x
+		var fs = require("fs");
+		var path = require('path');
+	 	var filePath = __dirname + "/DatesNaissancesSave.json";
+		var file_content;
+
+		file_content = fs.readFileSync(filePath, 'utf8');
+		file_content = JSON.parse(file_content);
+
+		if(typeof file_content[searchperson] != 'undefined' && file_content[searchperson] != "") {
+			var infos = file_content[searchperson];
+			console.log("Informations: " + infos);
+			ScribeSpeak(infos);
+			callback();
+			return;
+		} else {
+			search = "Date de naissance de " + searchperson;
+		}		
+	}
+
 	var url = "https://www.google.fr/search?q=" + encodeURI(search) + "&btnG=Rechercher&gbv=1";
 	console.log('Url Request: ' + url);
 
@@ -104,12 +129,28 @@ function agegoogle(searchperson, callback) {
         } else {
         	console.log("Informations: " + informations);
 
-        	var splitinfos = informations.replace('ans', '').split('(');
-	        var age = splitinfos[0].trim();
-	        var dates = splitinfos[1].replace(')', '').trim();
-	        var person = $('.g #_vBb div._eGc').text().trim().replace('Âge', '').replace('age', '');
+        	if(want == "age") {
+				var splitinfos = informations.replace('ans', '').split('(');
+		        var age = splitinfos[0].trim();
+		        var dates = splitinfos[1].replace(')', '').trim();
+		        var person = $('.g #_vBb div._eGc').text().trim().replace('Âge', '').replace('age', '');
 
-        	ScribeSpeak(person + " a " + age + " ans");
+		        var reponse = person + " a " + age + " ans"; // Réponse à dire
+
+			} else if(want == "dob") {
+				var person = $('.g #_vBb div._eGc').text().trim().split(',')[0].trim();
+
+				var reponse = person + " est né le " + informations; // Réponse à dire
+
+				// On sauvegarde sa date de naissance
+				file_content[searchperson] = reponse;
+	        	chaine = JSON.stringify(file_content, null, '\t');
+				fs.writeFile(filePath, chaine, function (err) {
+					console.log("[ GoogleAge ] Informations enregistrés");
+				});
+			}
+
+        	ScribeSpeak(reponse);
 			callback();
         }
 	    return;

@@ -4,21 +4,49 @@
 		<tag>out.action=new Object(); </tag>
 
 		<item>Jarvis</item>
-    
-		<one-of>
-			<item>quel age</item>
-			<item>quel est l'age</item>
-			<item>tu peux me donner l'age</item>
-			<item>peux tu me donner l'age</item>
-			<item>c'est quoi l'age</item>
-			<item>il a quel age</item>
-			<item>tu sait l'age</item>
-		</one-of>
+    	<!-- Pour demander l'age d'une personne -->
+    	<item repeat="0-1">
+			<one-of>
+				<item>quel age<tag>out.action.want="age";</tag></item>
+				<item>quel est l'age<tag>out.action.want="age";</tag></item>
+				<item>tu peux me donner l'age<tag>out.action.want="age";</tag></item>
+				<item>peux tu me donner l'age<tag>out.action.want="age";</tag></item>
+				<item>c'est quoi l'age<tag>out.action.want="age";</tag></item>
+				<item>il a quel age<tag>out.action.want="age";</tag></item>
+				<item>tu sait l'age<tag>out.action.want="age";</tag></item>
+			</one-of>
+		</item>
+		<!-- Pour demander la date de naissance d'une personne -->
+		<item repeat="0-1">
+			<item repeat="0-1">
+				<one-of>
+					<item>tu sais</item>
+					<item>sais tu</item>
+					<item>peux tu me dire</item>
+					<item>tu peux me dire</item>
+					<item>dit moi</item>
+					<item>c'est quoi</item>
+					<item>quel est</item>
+					<item>quelle est</item>
+					<item>il est</item>
+				</one-of>
+			</item>
+			<one-of>
+				<item>la date de naissance<tag>out.action.want="dob";</tag></item>
+				<item>quand il est né<tag>out.action.want="dob";</tag></item>
+				<item>quand est né<tag>out.action.want="dob";</tag></item>
+				<item>quand est ce qu'il est né<tag>out.action.want="dob";</tag></item>
+				<item>né quand<tag>out.action.want="dob";</tag></item>
+				<item>née quand<tag>out.action.want="dob";</tag></item>
+			</one-of>
+		</item>
 
 		<item repeat="0-1">
 			<one-of>
 				<item>de</item>
 				<item>a</item>
+				<item>à</item>
+				<item>au</item>
 			</one-of>
 		</item>
 
