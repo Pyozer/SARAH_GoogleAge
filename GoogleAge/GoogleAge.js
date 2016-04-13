@@ -48,8 +48,8 @@ function checkScribe(event, action, callback, want) {
 			decodeScribe(SARAH.context.scribe.lastPartial, callback, want);
 		} else {
 			SARAH.context.scribe.activePlugin('Aucun (GoogleAge)');
-			ScribeSpeak("Désolé je n'ai pas compris. Merci de réessayer.", true);
-			return callback();
+			//ScribeSpeak("Désolé je n'ai pas compris. Merci de réessayer.", true);
+			return callback({ 'tts': "" });
 		}
 		
 	} else {
@@ -69,8 +69,8 @@ function decodeScribe(search, callback, want) {
 	var match = search.match(rgxp);
 	if (!match || match.length <= 1){
 		SARAH.context.scribe.activePlugin('Aucun (GoogleAge)');
-		ScribeSpeak("Désolé je n'ai pas compris.", true);
-		return callback();
+		//ScribeSpeak("Désolé je n'ai pas compris.", true);
+		return callback({ 'tts': "Désolé je n'ai pas compris." });
 	}
 	search = match[3].replace('quand', '').trim();
 	return agegoogle(callback, search, want);
@@ -92,8 +92,8 @@ function agegoogle(callback, searchperson, want) {
 		if(typeof file_content[searchperson] != 'undefined' && file_content[searchperson] != "") {
 			var infos = file_content[searchperson];
 			console.log("Informations: " + infos);
-			ScribeSpeak(infos);
-			callback();
+			//ScribeSpeak(infos);
+			callback({ 'tts': infos });
 			return;
 		} else {
 			search = "Date de naissance de " + searchperson;
@@ -114,8 +114,8 @@ function agegoogle(callback, searchperson, want) {
 	request({ 'uri': url, 'headers': options }, function(error, response, html) {
 
     	if (error || response.statusCode != 200) {
-    		ScribeSpeak("La requête vers Google a échoué. Erreur " + response.statusCode);
-			callback();
+    		//ScribeSpeak("La requête vers Google a échoué. Erreur " + response.statusCode);
+			callback({ 'tts': "La requête vers Google a échoué. Erreur " + response.statusCode });
 			return;
 	    }
         var $ = cheerio.load(html);
@@ -124,8 +124,8 @@ function agegoogle(callback, searchperson, want) {
 
         if(informations == "") {
         	console.log("Impossible de récupérer les informations sur Google");
-        	ScribeSpeak("Désolé, je n'ai pas réussi à récupérer d'informations");
-			callback();
+        	//ScribeSpeak("Désolé, je n'ai pas réussi à récupérer d'informations");
+			callback({ 'tts': "Désolé, je n'ai pas réussi à récupérer d'informations" });
         } else {
         	console.log("Informations: " + informations);
 
@@ -150,8 +150,8 @@ function agegoogle(callback, searchperson, want) {
 				});
 			}
 
-        	ScribeSpeak(reponse);
-			callback();
+        	//ScribeSpeak(reponse);
+			callback({ 'tts': reponse });
         }
 	    return;
     });
