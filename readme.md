@@ -9,7 +9,7 @@ Que vous pouvez trouver ici: https://github.com/tilleul/Sarah.Scribe
 
 Prérequis
 ---------
-- Sarah v4
+- Sarah v4 (ou v3 mais non testé)
 - Le plugin Scribe
 - Et ce plugin ;)
 
