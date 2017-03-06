@@ -150,7 +150,7 @@ function agegoogle(callback, searchperson, want) {
                 var reponse = searchperson + " a " + age + " ans"; // Réponse à dire
 
             } else if (want == "dob") {
-                var reponsesearchperson = person + " est né le " + informations; // Réponse à dire
+                var reponse = searchperson + " est né le " + informations; // Réponse à dire
 
                 // On sauvegarde sa date de naissance
                 file_content[searchperson] = reponse;
