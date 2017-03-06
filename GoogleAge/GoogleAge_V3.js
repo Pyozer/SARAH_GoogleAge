@@ -132,7 +132,7 @@ function agegoogle(callback, searchperson, want) {
         }
         var $ = cheerio.load(html);
 
-        var informations = $('.g #_vBb span._m3b').text().trim();
+        var informations = $('._OKe ._cFb ._XWk').text().trim();
 
         if (informations == "") {
             console.log("Impossible de récupérer les informations sur Google");
@@ -147,14 +147,10 @@ function agegoogle(callback, searchperson, want) {
                 var splitinfos = informations.replace('ans', '').split('(');
                 var age = splitinfos[0].trim();
                 var dates = splitinfos[1].replace(')', '').trim();
-                var person = $('.g #_vBb div._eGc').text().trim().replace('Âge', '').replace('age', '');
-
-                var reponse = person + " a " + age + " ans"; // Réponse à dire
+                var reponse = searchperson + " a " + age + " ans"; // Réponse à dire
 
             } else if (want == "dob") {
-                var person = $('.g #_vBb div._eGc').text().trim().split(',')[0].trim();
-
-                var reponse = person + " est né le " + informations; // Réponse à dire
+                var reponsesearchperson = person + " est né le " + informations; // Réponse à dire
 
                 // On sauvegarde sa date de naissance
                 file_content[searchperson] = reponse;
